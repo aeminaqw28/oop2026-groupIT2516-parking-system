@@ -1,3 +1,5 @@
+package Entities;
+
 public class Vehicle {
     private int id;
     private String plateNumber;

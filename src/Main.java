@@ -14,6 +14,9 @@ public class Main {
                     System.out.println("Database time: " + rs.getTimestamp(1));
                 }
             }
+            sql = "insert into tariffs(tariff_name, base_cost, cost_per_hour) values('javatest',100,100)";
+            PreparedStatement stmt = connection.prepareStatement(sql);
+            stmt.executeQuery();
         } catch (SQLException e) {
             System.out.println("Error while connecting to database:");
             e.printStackTrace();
