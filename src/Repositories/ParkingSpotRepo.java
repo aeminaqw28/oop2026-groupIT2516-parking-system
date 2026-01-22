@@ -11,7 +11,7 @@ import java.util.List;
 public class ParkingSpotRepo implements IParkingSpotRepo {
 
     @Override
-    public boolean addSpot(ParkingSpot spot) {
+    public boolean addSpot() {
         try {
             Connection connection = DatabaseConnection.getConnection();
             String sql = "INSERT INTO parking_spots(vehicle_number) VALUES(?)";

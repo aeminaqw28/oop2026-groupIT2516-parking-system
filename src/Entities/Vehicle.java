@@ -3,19 +3,20 @@ package Entities;
 public class Vehicle {
     private int id;
     private String plateNumber;
-    private String type; // CAR, MOTORCYCLE, TRUCK
+    private int reserved_spot;
+
 
     public Vehicle() {}
 
-    public Vehicle(String plateNumber, String type) {
+    public Vehicle(String plateNumber) {
         setPlateNumber(plateNumber);
-        setType(type);
+        reserved_spot=-1;
     }
 
 
     public int getId() { return id; }
     public String getPlateNumber() { return plateNumber; }
-    public String getType() { return type; }
+    public int getReserved_spot() { return reserved_spot; }
 
     public void setId(int id) { this.id = id; }
 
@@ -26,15 +27,14 @@ public class Vehicle {
         this.plateNumber = plateNumber.trim().toUpperCase();
     }
 
-    public void setType(String type) {
-        if (type == null || type.trim().isEmpty()) {
-            throw new IllegalArgumentException("Vehicle type cannot be empty");
-        }
-        this.type = type.trim().toUpperCase();
+    public void setReserved_spot(int reserved_spot) {
+        this.reserved_spot = reserved_spot;
     }
 
     @Override
     public String toString() {
-        return plateNumber + " (" + type + ")";
+        String result = "Vehicle number: "+plateNumber;
+        result+=(reserved_spot==-1?"":"Reserved spot: "+reserved_spot);
+        return result;
     }
 }
