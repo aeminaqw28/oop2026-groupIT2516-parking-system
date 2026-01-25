@@ -1,10 +1,14 @@
 package Controllers.Interfaces;
 
 import Entities.Vehicle;
+import Exceptions.InvalidVehiclePlate;
+
 import java.util.List;
 
 public interface IVehicleControl {
-    boolean addVehicle(String vehicle_number);
+    boolean addVehicle(String vehicle_number) throws InvalidVehiclePlate;
     List<Vehicle> listVehicles();
-    boolean reserveSpot(int spot_number); // только один параметр!
+    boolean occupySpot(int spot_number, String vehicle_number);
+    boolean freeSpot(String vehicle_number);
+    Vehicle getVehicle(String vehicle_number);
 }

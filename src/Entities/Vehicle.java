@@ -12,6 +12,10 @@ public class Vehicle {
         setPlateNumber(plateNumber);
         reserved_spot=-1;
     }
+    public Vehicle(String plateNumber, int reserved_spot) {
+        setPlateNumber(plateNumber);
+        setReserved_spot(reserved_spot);
+    }
 
 
     public int getId() { return id; }
@@ -33,8 +37,7 @@ public class Vehicle {
 
     @Override
     public String toString() {
-        String result = "Vehicle number: "+plateNumber;
-        result+=(reserved_spot==-1?"":"Reserved spot: "+reserved_spot);
+        String result = "Vehicle number: "+plateNumber+ ", Reserved spot: "+reserved_spot;
         return result;
     }
 }

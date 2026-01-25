@@ -27,8 +27,7 @@ public class ParkingSpot {
 
     @Override
     public String toString() {
-        String result="Spot number: "+spot_number;
-        result+=(reserved_by.isEmpty()?"":" Reserved by: "+reserved_by);
+        String result="Spot number: "+spot_number+", Reserved by: "+reserved_by;
         return result;
     }
 }

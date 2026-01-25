@@ -30,7 +30,7 @@ public class ParkingSpotRepo implements IParkingSpotRepo {
         List<ParkingSpot> spots = new ArrayList<>();
         try {
             Connection connection = DatabaseConnection.getConnection();
-            String sql = "SELECT * FROM parking_spots WHERE vehicle_number=NULL";
+            String sql = "SELECT * FROM parking_spots WHERE vehicle_number IS NULL";
             PreparedStatement statement = connection.prepareStatement(sql);
             ResultSet result = statement.executeQuery();
             while (result.next()) {
@@ -38,6 +38,7 @@ public class ParkingSpotRepo implements IParkingSpotRepo {
                         result.getInt("spot_number"),
                         result.getString("vehicle_number")));
             }
+            return spots;
         } catch (SQLException e) {
             System.out.println("SQL error: " + e.getMessage());
         }
@@ -50,13 +51,47 @@ public class ParkingSpotRepo implements IParkingSpotRepo {
             Connection connection = DatabaseConnection.getConnection();
             String sql = "UPDATE parking_spots SET vehicle_number=? WHERE spot_number=?";
             PreparedStatement statement = connection.prepareStatement(sql);
-            statement.setInt(1, spot_number);
-            statement.setString(2, vehicle_number);
+            statement.setString(1, vehicle_number);
+            statement.setInt(2, spot_number);
             int rows = statement.executeUpdate();
             return rows > 0;
         } catch (SQLException e) {
             System.out.println("SQL error: " + e.getMessage());
         }
         return false;
+    }
+
+    @Override
+    public boolean freeSpot(int spot_number) {
+        try {
+            Connection connection = DatabaseConnection.getConnection();
+            String sql = "UPDATE parking_spots SET vehicle_number=NULL WHERE spot_number=?";
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setInt(1, spot_number);
+            int rows = statement.executeUpdate();
+            return rows > 0;
+        } catch (SQLException e) {
+            System.out.println("SQL error: " + e.getMessage());
+        }
+        return false;
+    }
+
+    @Override
+    public ParkingSpot getSpot(int spot_number) {
+        try {
+            Connection connection = DatabaseConnection.getConnection();
+            String sql = "SELECT * FROM parking_spots WHERE spot_number=?";
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setInt(1,spot_number);
+            ResultSet result = statement.executeQuery();
+            if(result.next()){
+                return new ParkingSpot(
+                        result.getInt("spot_number"),
+                        result.getString("vehicle_number"));
+            }
+        } catch (SQLException e) {
+            System.out.println("SQL error: " + e.getMessage());
+        }
+        return null;
     }
 }

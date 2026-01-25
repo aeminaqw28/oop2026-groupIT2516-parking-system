@@ -49,16 +49,53 @@ public class VehicleRepo implements IVehicleRepo {
     }
 
     @Override
-    public void occupy_spot(int spot_number) {
+    public boolean occupy_spot(int spot_number, String vehicle_number) {
         try {
             Connection connection = DatabaseConnection.getConnection();
-            String sql = "UPDATE parking_spots SET is_occupied = true WHERE spot_number = ?";
+            String sql = "UPDATE vehicles SET reserved_spot_number=? WHERE vehicle_number = ?";
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setInt(1, spot_number);
+            statement.setString(2, vehicle_number);
             statement.executeUpdate();
 
+            return true;
         } catch (SQLException e) {
             System.out.println("SQL error: " + e.getMessage());
         }
+        return false;
+    }
+
+    @Override
+    public boolean freeSpot(String vehicle_number) {
+        try {
+            Connection connection = DatabaseConnection.getConnection();
+            String sql = "UPDATE vehicles SET reserved_spot_number=NULL WHERE vehicle_number = ?";
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setString(1, vehicle_number);
+            statement.executeUpdate();
+
+            return true;
+        } catch (SQLException e) {
+            System.out.println("SQL error: " + e.getMessage());
+        }
+        return false;
+    }
+
+    @Override
+    public Vehicle getVehicle(String vehicle_number) {
+        try {
+            Connection connection = DatabaseConnection.getConnection();
+            String sql = "SELECT * FROM vehicles WHERE vehicle_number=?";
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setString(1, vehicle_number);
+            ResultSet result = statement.executeQuery();
+            if(result.next()){
+                return new Vehicle(result.getString("vehicle_number"),
+                        result.getInt("reserved_spot_number"));
+            }
+        } catch (SQLException e) {
+            System.out.println("SQL error: " + e.getMessage());
+        }
+        return null;
     }
 }

@@ -2,23 +2,26 @@ package Controllers;
 
 import Controllers.Interfaces.IVehicleControl;
 import Entities.Vehicle;
+import Exceptions.InvalidVehiclePlate;
 import Repositories.Interfaces.IVehicleRepo;
-import Repositories.Interfaces.IParkingSpotRepo;
+
 import java.util.List;
 
 public class VehicleController implements IVehicleControl {
     private final IVehicleRepo vehicleRepo;
-    private final IParkingSpotRepo parkingSpotRepo;
 
-    public VehicleController(IVehicleRepo vehicleRepo, IParkingSpotRepo parkingSpotRepo) {
+    public VehicleController(IVehicleRepo vehicleRepo) {
         this.vehicleRepo = vehicleRepo;
-        this.parkingSpotRepo = parkingSpotRepo;
     }
 
     @Override
-    public boolean addVehicle(String vehicle_number) {
+    public boolean addVehicle(String vehicle_number) throws InvalidVehiclePlate {
+        if(getVehicle(vehicle_number)==null){
+            throw new InvalidVehiclePlate("This vehicle already exists!");
+        }
         Vehicle vehicle = new Vehicle(vehicle_number);
-        return vehicleRepo.addVehicle(vehicle);
+        boolean vehicleAdded= vehicleRepo.addVehicle(vehicle);
+        return vehicleAdded;
     }
 
     @Override
@@ -27,12 +30,20 @@ public class VehicleController implements IVehicleControl {
     }
 
     @Override
-    public boolean reserveSpot(int spot_number) {
-        System.out.println("Need vehicle number!");
-        return false;
+    public boolean occupySpot(int spot_number, String vehicle_number) {
+        boolean reserved = vehicleRepo.occupy_spot(spot_number,vehicle_number);
+        return reserved;
     }
 
-    public boolean reserveSpot(int spot_number, String vehicle_number) {
-        return parkingSpotRepo.reserveSpot(spot_number, vehicle_number);
+    @Override
+    public boolean freeSpot(String vehicle_number) {
+        boolean spotFreed = vehicleRepo.freeSpot(vehicle_number);
+        return spotFreed;
+    }
+
+    @Override
+    public Vehicle getVehicle(String vehicle_number) {
+        Vehicle vehicle=vehicleRepo.getVehicle(vehicle_number);
+        return vehicle;
     }
 }

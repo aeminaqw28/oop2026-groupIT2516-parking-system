@@ -6,6 +6,7 @@ import java.util.List;
 public interface IVehicleRepo {
     boolean addVehicle(Vehicle vehicle);
     List<Vehicle> listVehicles();
-    void occupy_spot(int spot_number);
-
+    boolean occupy_spot(int spot_number, String vehicle_number);
+    boolean freeSpot(String vehicle_number);
+    Vehicle getVehicle(String vehicle_number);
 }

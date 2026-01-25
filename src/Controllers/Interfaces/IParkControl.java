@@ -1,7 +1,14 @@
 package Controllers.Interfaces;
 
+import Entities.ParkingSpot;
+import Exceptions.SpotAlreadyReserved;
+
+import java.util.List;
+
 public interface IParkControl {
-    String addSpot();
-    String listEmptySpots();
-    String reserveSpot(int spot_number, String vehicle_number);
+    boolean addSpot();
+    List<ParkingSpot> listEmptySpots();
+    boolean reserveSpot(int spot_number, String vehicle_number) throws SpotAlreadyReserved;
+    boolean freeSpot(int spot_number);
+    ParkingSpot getSpot(int spot_number);
 }
