@@ -3,6 +3,7 @@ package Controllers;
 import Controllers.Interfaces.IVehicleControl;
 import Entities.Vehicle;
 import Exceptions.InvalidVehiclePlate;
+import Exceptions.ObjectNotFound;
 import Repositories.Interfaces.IVehicleRepo;
 
 import java.util.List;
@@ -16,8 +17,12 @@ public class VehicleController implements IVehicleControl {
 
     @Override
     public boolean addVehicle(String vehicle_number) throws InvalidVehiclePlate {
-        if(getVehicle(vehicle_number)==null){
-            throw new InvalidVehiclePlate("This vehicle already exists!");
+        try {
+            if(getVehicle(vehicle_number)==null){
+                throw new InvalidVehiclePlate("This vehicle already exists!");
+            }
+        } catch (ObjectNotFound objectNotFound) {
+            throw new RuntimeException(objectNotFound);
         }
         Vehicle vehicle = new Vehicle(vehicle_number);
         boolean vehicleAdded= vehicleRepo.addVehicle(vehicle);
@@ -42,8 +47,11 @@ public class VehicleController implements IVehicleControl {
     }
 
     @Override
-    public Vehicle getVehicle(String vehicle_number) {
+    public Vehicle getVehicle(String vehicle_number) throws ObjectNotFound {
         Vehicle vehicle=vehicleRepo.getVehicle(vehicle_number);
+        if(vehicle==null){
+            throw new ObjectNotFound("Vehicle was not found");
+        }
         return vehicle;
     }
 }

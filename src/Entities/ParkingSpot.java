@@ -5,8 +5,8 @@ public class ParkingSpot {
     private String reserved_by;
 
     public ParkingSpot(int spot_number,String reserved_by){
-        setReserved_by(reserved_by);
-        setSpot_number(spot_number);
+      setReserved_by(reserved_by);
+       setSpot_number(spot_number);
     }
 
     public int getSpot_number() {

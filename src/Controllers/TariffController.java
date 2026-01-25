@@ -2,8 +2,8 @@ package Controllers;
 
 import Controllers.Interfaces.ITariffControl;
 import Entities.Tariff;
+import Exceptions.ObjectNotFound;
 import Repositories.Interfaces.ITariffRepo;
-import Repositories.TariffRepo;
 
 import java.util.List;
 
@@ -20,9 +20,12 @@ public class TariffController implements ITariffControl {
     }
 
     @Override
-    public String getTariff(int id) {
+    public Tariff getTariff(int id) throws ObjectNotFound {
         Tariff tariff = repo.getTariff(id);
-        return (tariff!=null?tariff.toString():"Tariff was not found.");
+        if(tariff==null){
+            throw new ObjectNotFound("Tariff was not found!");
+        }
+        return tariff;
     }
     @Override
     public String getTariff(String tariff_name) {

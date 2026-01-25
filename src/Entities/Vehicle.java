@@ -10,7 +10,6 @@ public class Vehicle {
 
     public Vehicle(String plateNumber) {
         setPlateNumber(plateNumber);
-        reserved_spot=-1;
     }
     public Vehicle(String plateNumber, int reserved_spot) {
         setPlateNumber(plateNumber);

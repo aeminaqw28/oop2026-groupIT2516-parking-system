@@ -1,6 +1,7 @@
 package Controllers.Interfaces;
 
 import Entities.ParkingSpot;
+import Exceptions.ObjectNotFound;
 import Exceptions.SpotAlreadyReserved;
 
 import java.util.List;
@@ -8,7 +9,7 @@ import java.util.List;
 public interface IParkControl {
     boolean addSpot();
     List<ParkingSpot> listEmptySpots();
-    boolean reserveSpot(int spot_number, String vehicle_number) throws SpotAlreadyReserved;
+    boolean reserveSpot(int spot_number, String vehicle_number) throws SpotAlreadyReserved, ObjectNotFound;
     boolean freeSpot(int spot_number);
-    ParkingSpot getSpot(int spot_number);
+    ParkingSpot getSpot(int spot_number) throws ObjectNotFound;
 }

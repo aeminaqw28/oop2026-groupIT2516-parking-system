@@ -73,15 +73,16 @@ public class TariffRepo implements ITariffRepo {
 
     @Override
     public List<Tariff> getAllTariffs() {
+        List<Tariff> tariffs = new ArrayList<>();
         try{
             Connection connection = DatabaseConnection.getConnection();
             String sql = "SELECT * FROM tariffs";
             PreparedStatement statement = connection.prepareStatement(sql);
 
             ResultSet result = statement.executeQuery();
-            List<Tariff> tariffs = new ArrayList<>();
             while(result.next()){
                 Tariff tariff=new Tariff(
+                        result.getInt("tariff_id"),
                         result.getString("tariff_name"),
                         result.getInt("base_cost"),
                         result.getInt("cost_per_hour"));
@@ -92,7 +93,7 @@ public class TariffRepo implements ITariffRepo {
         } catch (SQLException e){
             System.out.println("SQL error: "+e.getMessage());
         }
-        return null;
+        return tariffs;
     }
 
 }

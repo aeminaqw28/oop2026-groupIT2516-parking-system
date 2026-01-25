@@ -9,6 +9,15 @@ public class Reservation {
     private Timestamp reserved_from;
     private Timestamp reserved_until;
 
+
+    public Reservation(int id, int occupied_spot, String vehicle_number, Timestamp reserved_from, Timestamp reserved_until){
+        setId(id);
+        setOccupied_spot(occupied_spot);
+        setVehicle_number(vehicle_number);
+        setReserved_from(reserved_from);
+        setReserved_until(reserved_until);
+    }
+
     public int getId(){
         return id;
     }
@@ -50,8 +59,7 @@ public class Reservation {
 
     @Override
     public String toString() {
-        return "Reservation{" +
-                "id: " +id+
+        return "Reservation id: " +id+
                 ", occupied spot: " + occupied_spot+
                 ", vehicle number: " + vehicle_number+
                 ", reserved from: " + reserved_from+

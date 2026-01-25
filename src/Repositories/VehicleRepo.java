@@ -38,7 +38,8 @@ public class VehicleRepo implements IVehicleRepo {
             ResultSet result = statement.executeQuery();
             while (result.next()) {
                 Vehicle vehicle = new Vehicle(
-                        result.getString("vehicle_number")
+                        result.getString("vehicle_number"),
+                        result.getInt("reserved_spot_number")
                 );
                 vehicles.add(vehicle);
             }
@@ -90,8 +91,8 @@ public class VehicleRepo implements IVehicleRepo {
             statement.setString(1, vehicle_number);
             ResultSet result = statement.executeQuery();
             if(result.next()){
-                return new Vehicle(result.getString("vehicle_number"),
-                        result.getInt("reserved_spot_number"));
+            return new Vehicle(result.getString("vehicle_number"),
+                    result.getInt("reserved_spot_number"));
             }
         } catch (SQLException e) {
             System.out.println("SQL error: " + e.getMessage());

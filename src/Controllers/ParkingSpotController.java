@@ -2,6 +2,7 @@ package Controllers;
 
 import Controllers.Interfaces.IParkControl;
 import Entities.ParkingSpot;
+import Exceptions.ObjectNotFound;
 import Exceptions.SpotAlreadyReserved;
 import Repositories.Interfaces.IParkingSpotRepo;
 
@@ -25,9 +26,13 @@ public class ParkingSpotController implements IParkControl {
     }
 
     @Override
-    public boolean reserveSpot(int spot_number, String vehicle_number) throws SpotAlreadyReserved {
-        if(getSpot(spot_number).getReserved_by()!=null){
-            throw new SpotAlreadyReserved("Spot is already reserved!");
+    public boolean reserveSpot(int spot_number, String vehicle_number) throws SpotAlreadyReserved, ObjectNotFound {
+        try {
+            if(getSpot(spot_number).getReserved_by()!=null){
+                throw new SpotAlreadyReserved("Spot is already reserved!");
+            }
+        } catch (ObjectNotFound objectNotFound) {
+            throw objectNotFound;
         }
         boolean reserved = repo.reserveSpot(spot_number,vehicle_number);
         return reserved;
@@ -40,8 +45,11 @@ public class ParkingSpotController implements IParkControl {
     }
 
     @Override
-    public ParkingSpot getSpot(int spot_number) {
+    public ParkingSpot getSpot(int spot_number) throws ObjectNotFound {
         ParkingSpot spot = repo.getSpot(spot_number);
+        if(spot == null){
+            throw new ObjectNotFound("Parking spot was not found!");
+        }
         return spot;
     }
 }

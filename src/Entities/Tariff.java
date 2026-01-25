@@ -53,6 +53,9 @@ public class Tariff {
 
     @Override
     public String toString() {
-        return tariff_name + ": " + basePrice + " + " + pricePerHour + "/hour";
+        return "Tariff id: " + id +
+                ", Tariff name: " + tariff_name +
+                ", Base price: " + basePrice +
+                ", Price per hour: " + pricePerHour;
     }
 }
