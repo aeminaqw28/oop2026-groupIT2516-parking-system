@@ -30,5 +30,9 @@ public class ParkingSpot {
         String result="Spot number: "+spot_number+", Reserved by: "+reserved_by;
         return result;
     }
+
+    public String getDescription(){
+        return "Standard spot, nothing unique.";
+    }
 }
 
