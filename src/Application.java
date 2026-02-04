@@ -1,10 +1,13 @@
 import Controllers.Interfaces.IMainControl;
 import Controllers.MainController;
+import Controllers.ParkingAnalyticsService;
 import Entities.Reservation;
 import Entities.Tariff;
 import Exceptions.AllVehiclesParked;
 import Exceptions.NoFreeSpots;
 import Exceptions.ReservationException;
+import Repositories.EnhancedRepos.EnhancedTariffRepo;
+import Repositories.EnhancedRepos.EnhancedVehicleRepo;
 
 import java.util.Scanner;
 
@@ -33,7 +36,9 @@ public class Application {
                 "2.Reserve a spot\n" +
                 "3.Release the spot\n" +
                 "4.Calculate cost\n" +
-                "5.Quit");
+                "5.Quit\n" +
+                "6.Show analytics(patterns demo)\n" +
+                "7.Show generics");
     }
     public void ChooseOption(){
         int option = scanner.nextInt();
@@ -52,6 +57,12 @@ public class Application {
             case 5:
                 quit();
                 break;
+            case 6:
+                ParkingAnalyticsService service = new ParkingAnalyticsService();
+                service.generateReport();
+                break;
+            case 7:
+
         }
     }
     public void ListEmptySpots(){
@@ -139,4 +150,21 @@ public class Application {
         scanner.nextInt();
     }
 
+
+    public void showAnalytics() {
+        ParkingAnalyticsService analyticsService=new ParkingAnalyticsService();
+        analyticsService.generateReport();
+    }
+
+    public void demoGenericsLambdas() {
+        EnhancedVehicleRepo vehicleRepo = new EnhancedVehicleRepo();
+        EnhancedTariffRepo tariffRepo = new EnhancedTariffRepo();
+
+        System.out.println("Unparked vehicles:");
+        vehicleRepo.findUnparked().forEach(v -> System.out.println(v.toString()));
+
+        System.out.println("Input vehicle number you want to search for\n");
+        String number=scanner.nextLine();
+        vehicleRepo.findByPlate(number);
+    }
 }
