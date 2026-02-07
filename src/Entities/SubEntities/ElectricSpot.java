@@ -9,6 +9,6 @@ public class ElectricSpot extends ParkingSpot {
 
     @Override
     public String getDescription() {
-        return "Electric spot, has charger, has higher per hour spot.";
+        return "Electric spot, has charger, has higher per hour rate.";
     }
 }

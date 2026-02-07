@@ -3,6 +3,7 @@ import Controllers.MainController;
 import Controllers.ParkingAnalyticsService;
 import Entities.Reservation;
 import Entities.Tariff;
+import Entities.Vehicle;
 import Exceptions.AllVehiclesParked;
 import Exceptions.NoFreeSpots;
 import Exceptions.ReservationException;
@@ -62,7 +63,7 @@ public class Application {
                 service.generateReport();
                 break;
             case 7:
-
+                demoGenericsLambdas();
         }
     }
     public void ListEmptySpots(){
@@ -164,7 +165,9 @@ public class Application {
         vehicleRepo.findUnparked().forEach(v -> System.out.println(v.toString()));
 
         System.out.println("Input vehicle number you want to search for\n");
-        String number=scanner.nextLine();
-        vehicleRepo.findByPlate(number);
+        String number=scanner.next();
+        for(Vehicle i: vehicleRepo.findByPlate(number)){
+            System.out.println(i.toString());
+        }
     }
 }
