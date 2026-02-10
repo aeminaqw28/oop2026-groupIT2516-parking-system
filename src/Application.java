@@ -1,14 +1,14 @@
-import Controllers.Interfaces.IMainControl;
-import Controllers.MainController;
-import Controllers.ParkingAnalyticsService;
-import Entities.Reservation;
-import Entities.Tariff;
-import Entities.Vehicle;
+import Components.MonitoringComponent.Controllers.Interfaces.IMainControl;
+import Components.MonitoringComponent.Controllers.MainController;
+import Components.ReportingComponent.ParkingAnalyticsService;
+import Components.ReservationComponent.Entities.Reservation;
+import Components.PaymentComponent.Entities.Tariff;
+import Components.ReservationComponent.Entities.Vehicle;
 import Exceptions.AllVehiclesParked;
 import Exceptions.NoFreeSpots;
 import Exceptions.ReservationException;
-import Repositories.EnhancedRepos.EnhancedTariffRepo;
-import Repositories.EnhancedRepos.EnhancedVehicleRepo;
+import Components.ReportingComponent.EnhancedRepos.EnhancedTariffRepo;
+import Components.ReportingComponent.EnhancedRepos.EnhancedVehicleRepo;
 
 import java.util.Scanner;
 

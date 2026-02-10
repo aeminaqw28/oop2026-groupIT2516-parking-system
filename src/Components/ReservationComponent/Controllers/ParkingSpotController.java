@@ -1,0 +1,55 @@
+package Components.ReservationComponent.Controllers;
+
+import Components.ReservationComponent.Controllers.Interfaces.IParkControl;
+import Components.ReservationComponent.Entities.ParkingSpot;
+import Exceptions.ObjectNotFound;
+import Exceptions.SpotAlreadyReserved;
+import Components.ReservationComponent.Repositories.Interfaces.IParkingSpotRepo;
+
+import java.util.List;
+
+public class ParkingSpotController implements IParkControl {
+    private final IParkingSpotRepo repo;
+    public ParkingSpotController(IParkingSpotRepo repo){
+        this.repo=repo;
+    }
+    public boolean addSpot(){
+        boolean created = repo.addSpot();
+        return created;
+    }
+
+    @Override
+    public List<ParkingSpot> listEmptySpots() {
+        List<ParkingSpot> empty_spots = repo.listEmptySpots();
+
+        return empty_spots;
+    }
+
+    @Override
+    public boolean reserveSpot(int spot_number, String vehicle_number) throws SpotAlreadyReserved, ObjectNotFound {
+        try {
+            if(getSpot(spot_number).getReserved_by()!=null){
+                throw new SpotAlreadyReserved("Spot is already reserved!");
+            }
+        } catch (ObjectNotFound objectNotFound) {
+            throw objectNotFound;
+        }
+        boolean reserved = repo.reserveSpot(spot_number,vehicle_number);
+        return reserved;
+    }
+
+    @Override
+    public boolean freeSpot(int spot_number) {
+        boolean spotFreed=repo.freeSpot(spot_number);
+        return spotFreed;
+    }
+
+    @Override
+    public ParkingSpot getSpot(int spot_number) throws ObjectNotFound {
+        ParkingSpot spot = repo.getSpot(spot_number);
+        if(spot == null){
+            throw new ObjectNotFound("Parking spot was not found!");
+        }
+        return spot;
+    }
+}
